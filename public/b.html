@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">window.domain通信调用父组件方法</button>
+    <script>
+        console.log(location.href)
+        window.addEventListener("message",(e)=>{
+            console.log(e)
+        })
+        document.domain="localhost";
+        document.getElementById("btn").onclick=function(){
+            window.parent.a()
+        }
+        function b(){
+            alert(33443)
+        }
+        
+    </script>
+</body>
+</html>
