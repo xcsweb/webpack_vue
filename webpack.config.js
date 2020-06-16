@@ -20,8 +20,14 @@ if(mode==="development"){
 }
 console.log(styleLoader)
 let styleArr=[ styleLoader,
-    'css-loader',
-    { loader: 'postcss-loader', options: { ident: 'postcss', plugins: () => [ require('postcss-preset-env')()  ] } }]
+    {loader:"css-loader",options: {
+                            modules: true,
+                            importLoaders: 1
+    }},
+    { loader: 'postcss-loader', options: { ident: 'postcss', plugins: () => [ require('postcss-preset-env')()  ] } }];
+let styleArr1=[ styleLoader,
+    "css-loader",
+    "sass-loader"]
 module.exports={
     mode:mode,
     entry:"./src/main.js",
@@ -37,10 +43,7 @@ module.exports={
             },
             {
                 test:/\.scss$/,
-                use:[
-                    ...styleArr,
-                    "sass-loader"
-                ]
+                use:styleArr1
             },
             {
                 test:/\.vue$/,
