@@ -4,6 +4,7 @@
     "build": "webpack --config webpack.config.js"
   },
   "devDependencies": {
+    "@moohng/postcss-px2vw": "^1.0.2",
     "autoprefixer": "^9.8.0",
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",

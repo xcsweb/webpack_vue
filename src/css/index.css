@@ -1,4 +1,9 @@
 body {
-    background:red;
+    background:green;
     display: flex;
+}
+
+.square{
+    width: 20px;
+    height: 200px;
 }
