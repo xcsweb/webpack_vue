@@ -22,7 +22,7 @@ export default {
     width: 0;
     height: 0;
     border: 100px solid transparent;
-    border-bottom: 200px solid #0ff;
+    border-bottom: 200px solid red;
 }
 .father{
     background: #666;
