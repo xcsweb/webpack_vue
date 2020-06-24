@@ -1,17 +1,18 @@
 const fs = require('fs')
 const { resolve } = require('path')
-
-const privateKey = fs.readFileSync(resolve(__dirname, '../自己填路径地址'))
+// 可以选择通过ssh证书加密上传
+const privateKey = fs.readFileSync(resolve(__dirname, 'C:/Users/Administrator/.ssh/test'))
 module.exports = {
   test: {
     name: 'test',
-    host: '',
+    host: '47.104.82.20',
     port: 22, // 端口
     username: 'root', // 登录服务器的账号
-    // password: '', // 登录服务器的密码
+    password: '', // 登录服务器的密码
     privateKey: privateKey, // 秘钥
     passphrase: 'private_key_password',
-    path: '自己填路径地址'// 发布至静态服务器的项目路径
+    path: '/media',// 发布至静态服务器的项目路径
+    clientPath:"./dist"
   },
   prod: {
     name: 'prod',
@@ -19,6 +20,7 @@ module.exports = {
     port: 22, // 端口
     username: '', // 登录服务器的账号    
     password: '', // 登录服务器的密码
-    path: '自己填路径地址'// 发布至静态服务器的项目路径
+    path: '自己填路径地址',// 发布至静态服务器的项目路径
+    clientPath:""
   }
 }

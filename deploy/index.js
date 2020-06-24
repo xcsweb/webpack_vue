@@ -10,6 +10,12 @@ const spinner = ora(
 const serverHost = servers[envChannel];
 const conn = new Client();
 if (envChannel === "test") {
+  connect("test")
+} else if (envChannel === "prod") {
+  connect("prod")
+}
+
+function connect(envChannel){
   conn
     .on("ready", function () {
       /**
@@ -18,7 +24,7 @@ if (envChannel === "test") {
        *       then,回调函数
        * 回调：then(err, data):data 运行命令之后的返回信息
        */
-      conn.exec("rm -rf 自己填路径地址", function (
+      conn.exec(`rm -rf ${servers[envChannel].path}`, function (
         error,
         stream
       ) {
@@ -29,11 +35,12 @@ if (envChannel === "test") {
             spinner.start();
 
             scpClient.scp(
-              "./自己填路径地址",
+              servers[envChannel].clientPath,
               {
                 host: serverHost.host,
                 port: serverHost.port,
                 username: serverHost.username,
+                password:serverHost.password,
                 privateKey: serverHost.privateKey,
                 passphrase: serverHost.passphrase,
                 path: serverHost.path,
@@ -68,57 +75,8 @@ if (envChannel === "test") {
       host: serverHost.host,
       port: serverHost.port,
       username: serverHost.username,
+      password:serverHost.password,
       privateKey: serverHost.privateKey,
-      passphrase: serverHost.passphrase,
-    });
-} else if (envChannel === "prod") {
-  conn
-    .on("ready", function () {
-      conn.exec("rm -rf 自己填路径地址", function (error, stream) {
-        if (error) throw error;
-        stream
-          .on("close", function (code, signal) {
-            // 在执行shell命令后，把开始上传部署项目代码放到这里面
-            spinner.start();
-            scpClient.scp(
-              "./自己填路径地址",
-              {
-                host: serverHost.host,
-                port: serverHost.port,
-                username: serverHost.username,
-                password: serverHost.password,
-                path: serverHost.path,
-              },
-              function (err) {
-                spinner.stop();
-                if (err) {
-                  console.log(chalk.red("发布失败.\n"));
-                  throw err;
-                } else {
-                  console.log(
-                    chalk.green(
-                      `success！成功发布到${
-                        process.env.NODE_ENV === "test" ? "测试" : "生产"
-                      }环境！\n`
-                    )
-                  );
-                }
-              }
-            );
-            conn.end();
-          })
-          .on("data", function (data) {
-            console.log("stdout:" + data);
-          })
-          .stderr.on("data", function (data) {
-            console.log("stderr:" + data);
-          });
-      });
-    })
-    .connect({
-      host: serverHost.host,
-      port: serverHost.port,
-      username: serverHost.username,
-      password: serverHost.password,
+      passphrase: serverHost.passphrase
     });
 }
